@@ -6,7 +6,7 @@ List::List(std::ifstream& file)
 	TInfo elem;
 	auto comp = [this](TInfo t1, TInfo t2)->bool
 		{
-			return t1.count_twos() < t2.count_twos();
+			return t1 > t2;
 		};
 	auto Find_Place = [this, comp](TInfo elem)->ptrNODE
 		{
@@ -17,7 +17,7 @@ List::List(std::ifstream& file)
 		};
 	while (file >> elem)
 	{
-		if (empty() || comp(head->info, elem) )
+		if (empty() || comp(elem, head->info) )
 			add_to_head(elem);
 		else
 			add_by_ptr(Find_Place(elem)->next, elem);
