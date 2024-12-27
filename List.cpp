@@ -4,16 +4,20 @@
 List::List(std::ifstream& file)
 {
 	TInfo elem;
-	auto Find_Place = [this](TInfo elem)->ptrNODE
+	auto comp = [this](TInfo t1, TInfo t2)->bool
+		{
+			return t1.count_twos() < t2.count_twos();
+		};
+	auto Find_Place = [this, comp](TInfo elem)->ptrNODE
 		{
 			ptrNODE res = head;
-			while (res->next && (res->next->info.count_twos_more_than_2() < elem.count_twos_more_than_2()))
+			while (res->next && comp(res->next->info, elem))
 				res = res->next;
 			return res;
 		};
 	while (file >> elem)
 	{
-		if (empty() || head->info.count_twos_more_than_2() > elem.count_twos_more_than_2() )
+		if (empty() || comp(head->info, elem) )
 			add_to_head(elem);
 		else
 			add_by_ptr(Find_Place(elem)->next, elem);

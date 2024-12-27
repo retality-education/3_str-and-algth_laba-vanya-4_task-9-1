@@ -5,25 +5,14 @@
 #include<Windows.h>
 #include"List.h"
 
-List task(const List& list)
+List task(List list)
 {
-	List new_list;
-	ptrNODE ptr = list.get_head();
-	bool fg = false;
-
-	while (ptr && !fg)
-	{
-		// Проверяем количество двоек у студента
-		if (!ptr->info.count_twos_more_than_2()) // Если двоек меньше 3, добавляем в новый список
-		{
-			new_list.add_to_tail(ptr->info);
-		}
-		else
-			fg = true;
-		ptr = ptr->next; // Переход к следующему узлу
+    ptrNODE ptr = list.get_head();
+	while (ptr && ptr->info.count_twos() >= 3) {
+		ptr = ptr->next;
+		list.del_from_head();
 	}
-
-	return new_list; // Возвращаем новый список без студентов с задолженностями
+    return list; // Возвращаем измененный список
 }
 
 int main()
@@ -46,7 +35,7 @@ int main()
 
 	List list4 = std::move(task(list));//конструктор перемещения
 	if (list4.get_head() == nullptr)
-		std::cout << "У всех студентов была задолженность с 3ём или более долгам.\n";
+		std::cout << "у всех студентов была задолженность с 3ём или более долгам.\n";
 	else
 		list4.print();
 	std::cout << "-------------------------------------------------\n";

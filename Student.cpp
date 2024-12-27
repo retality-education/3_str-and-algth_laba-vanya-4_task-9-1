@@ -1,22 +1,28 @@
+#pragma once
 #include "Student.h"
 
 // Метод для подсчета количества двоек
-bool Student::count_twos_more_than_2() const {
+int Student::count_twos() const {
 	int count = 0;
 	for (int grade : grades) {
 		if (grade == 2) {
 			count++;
 		}
 	}
-	return count > 2;
+	return count;
 }
 
 // Перегрузка операторов для ввода и вывода
 std::istream& operator>>(std::istream& in, Student& s) {
-	in >> s.FIO >> s.course >> s.group >> s.education_form;
+	std::getline(in, s.FIO);
+	in >> s.course;
+	in.ignore(255, '\n');
+	std::getline(in, s.group);
+	std::getline(in, s.education_form);
 	for (int i = 0; i < 5; ++i) {
 		in >> s.grades[i];
 	}
+	in.ignore(255, '\n');
 	return in;
 }
 
@@ -31,7 +37,7 @@ std::ostream& operator<<(std::ostream& out, const Student& s) {
 }
 // Операторы сравнения по количеству двоек
 bool Student::operator<(const Student& student)  {
-	return this->count_twos_more_than_2() < student.count_twos_more_than_2(); // Меньше двоек - выше
+	return this->count_twos() < student.count_twos(); // Меньше двоек - выше
 }
 
 bool Student::operator>=(const Student& student){
@@ -43,7 +49,7 @@ bool Student::operator<=(const Student& student) {
 }
 
 bool Student::operator==(const Student& student)  {
-	return  this->count_twos_more_than_2() == student.count_twos_more_than_2(); // Сравнение по ФИО
+	return  this->count_twos() == student.count_twos(); // Сравнение по ФИО
 }
 
 bool Student::operator>(const Student& student) {

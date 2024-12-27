@@ -1,6 +1,8 @@
 #include <string>
 #include <iostream>
-
+#include <fstream>
+#include <functional>
+#pragma once
 class Student
 {
 private:
@@ -44,7 +46,7 @@ public:
     }
     friend std::istream& operator>>(std::istream& in, Student& t);
     friend std::ostream& operator<<(std::ostream& out, const Student& t);
-    bool count_twos_more_than_2() const;
+    int count_twos() const;
     bool operator<(const Student& Student);
     bool operator>=(const Student& Student);
     bool operator<=(const Student& Student);
